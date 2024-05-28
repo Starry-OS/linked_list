@@ -8,5 +8,6 @@ license = "GPL-2.0-or-later"
 homepage = "https://github.com/rcore-os/arceos"
 repository = "https://github.com/rcore-os/arceos/tree/main/crates/linked_list"
 documentation = "https://rcore-os.github.io/arceos/linked_list/index.html"
+keywords = ["Starry"]
 
 [dependencies]
