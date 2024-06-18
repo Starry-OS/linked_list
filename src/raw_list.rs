@@ -99,12 +99,13 @@ impl<G: GetLinks> RawList<G> {
     }
 
     /// Returns an iterator for the list starting at the first entry.
-    pub fn iter(&self) -> Iterator<'_, G> {
+    pub(crate) fn iter(&self) -> Iterator<'_, G> {
         Iterator::new(self.cursor_front())
     }
 
+    #[allow(dead_code)]
     /// Returns an iterator for the list starting at the last entry.
-    pub fn iter_back(&self) -> impl iter::DoubleEndedIterator<Item = &'_ G::EntryType> {
+    pub(crate) fn iter_back(&self) -> impl iter::DoubleEndedIterator<Item = &'_ G::EntryType> {
         Iterator::new(self.cursor_back())
     }
 
@@ -258,8 +259,9 @@ impl<G: GetLinks> RawList<G> {
         CursorMut::new(self, self.front())
     }
 
+    #[allow(dead_code)]
     /// Returns a cursor starting on the last (back) element of the list.
-    pub fn cursor_back(&self) -> Cursor<'_, G> {
+    pub(crate) fn cursor_back(&self) -> Cursor<'_, G> {
         // SAFETY: `back` is in the list (or is `None`) because we've read it from the list head
         // and the list cannot have changed because we hold a shared reference to it.
         Cursor::new(self, self.back())
@@ -282,7 +284,7 @@ impl<G: GetLinks> CommonCursor<G> {
                 if let Some(head) = list.head {
                     // SAFETY: We have a shared ref to the linked list, so the links can't change.
                     let links = unsafe { &*G::get_links(cur.as_ref()).entry.get() };
-                    if links.next.unwrap() != head {
+                    if !ptr::addr_eq(links.next.unwrap().as_ptr(), head.as_ptr()) {
                         self.cur = links.next;
                     }
                 }
@@ -297,7 +299,7 @@ impl<G: GetLinks> CommonCursor<G> {
                 let next = match self.cur.take() {
                     None => head,
                     Some(cur) => {
-                        if cur == head {
+                        if ptr::addr_eq(cur.as_ptr(), head.as_ptr()) {
                             return;
                         }
                         cur
