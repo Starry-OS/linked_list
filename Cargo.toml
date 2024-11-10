@@ -5,7 +5,7 @@ edition = "2021"
 authors = ["Wedson Almeida Filho <wedsonaf@google.com>"]
 description = "Linked lists that supports arbitrary removal in constant time"
 license = "GPL-2.0-or-later"
-documentation = "https://Starry-OS.github.io/arceos/linked_list/index.html"
+documentation = "https://starry-os.github.io/linked_list/"
 keywords = ["Starry"]
 
 [dependencies]
