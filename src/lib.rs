@@ -9,4 +9,4 @@
 mod linked_list;
 pub mod raw_list;
 pub use linked_list::{GetLinksWrapped, List, Wrapper};
-pub use raw_list::{GetLinks, Cursor, Links};
+pub use raw_list::{Cursor, GetLinks, Links};

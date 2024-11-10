@@ -5,9 +5,8 @@
 //! TODO: This module is a work in progress.
 
 use core::{
-    iter,
     cell::UnsafeCell,
-    ptr,
+    iter, ptr,
     ptr::NonNull,
     sync::atomic::{AtomicBool, Ordering},
 };
@@ -94,7 +93,7 @@ pub(crate) struct RawList<G: GetLinks> {
 }
 
 impl<G: GetLinks> RawList<G> {
-    pub(crate) const  fn new() -> Self {
+    pub(crate) const fn new() -> Self {
         Self { head: None }
     }
 
@@ -442,7 +441,6 @@ impl<G: GetLinks> iter::DoubleEndedIterator for Iterator<'_, G> {
 mod tests {
     extern crate alloc;
     use alloc::{boxed::Box, vec::Vec};
-    use core::ptr::NonNull;
 
     struct Example {
         links: super::Links<Self>,
@@ -527,7 +525,7 @@ mod tests {
         for n in 1..=MAX {
             // SAFETY: The entry was allocated above, it's not in any lists yet, is never moved,
             // and outlives the list.
-            unsafe {list.push_back(&v[n - 1]) };
+            unsafe { list.push_back(&v[n - 1]) };
             assert_list_contents(&v[..n], &list);
         }
     }
@@ -554,4 +552,3 @@ mod tests {
         });
     }
 }
-
